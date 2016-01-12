@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package clock;
 
 /**
@@ -27,6 +32,15 @@ public class Clock
     /**
      * @param args the command line arguments
      */
+    
+    public Clock()
+    {
+        setDate();
+        isLeapYear();
+        calcMonth();
+        calcMonthName();
+        printTime();
+    }
     public void setDate()
     {
         days=hours/24+1;
@@ -55,125 +69,32 @@ public class Clock
            }
         leapYear = false;
     }
-    public int calcMonth()
+    public void calcMonth()
     {
         month=1;
-        int jan =31;
-        int feb = 28;
-        int march =31;
-        int april = 30;
-        int may = 31;
-        int juni = 30;
-        int july = 31;
-        int august =31;
-        int sep = 30;
-        int oct = 31;
-        int nov = 30; 
-        //int dec = 31;
+        int[] months = new int[11];
+        months[0] =31;
+        months[1] = 28;
         if(leapYear)
         {
-            feb = 29;
+            months[1] = 29;
         }
-        if(daysSinceNewYear > jan)
+        months[2] = 31;
+        months[3] = 30;
+        months[4] = 31;
+        months[5] = 30;
+        months[6] = 31;
+        months[7] = 31;
+        months[8] = 30;
+        months[9] = 31;
+        months[10] = 30; 
+        //int dec = 31
+        for (int i = 0;  daysSinceNewYear > months[i]; i++)
         {
-            daysSinceNewYear-=jan;
+            daysSinceNewYear -= months[i];
             month++;
         }
-        else
-        {
-            return month;
-        }
-        if(daysSinceNewYear > feb)
-        {
-            daysSinceNewYear-=feb;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > march)
-        {
-            daysSinceNewYear-=march;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > april)
-        {
-            daysSinceNewYear-=april;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > may)
-        {
-            daysSinceNewYear-=may;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > juni)
-        {
-            daysSinceNewYear-=juni;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > july)
-        {
-            daysSinceNewYear-=july;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > august)
-        {
-            daysSinceNewYear-=august;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        if(daysSinceNewYear > sep)
-        {
-            daysSinceNewYear-=sep;
-            month++;
-        }
-        else
-        {
-            return month;
-        }
-        if(daysSinceNewYear > oct)
-        {
-            daysSinceNewYear-=oct;
-            month++;
-        }
-        else
-        {
-            return month;
-        }
-        if(daysSinceNewYear > nov)
-        {
-            daysSinceNewYear-=jan;
-            month++;
-        }
-        else
-        {
-            return month;
-        } 
-        return month;
+       
     }
     
     public void calcMonthName()
@@ -215,13 +136,48 @@ public class Clock
     {
          System.out.println("år: "+years+" month: "+monthString+" dage: "+daysSinceNewYear+" timer: "+hours%24+" minutter: "+minutes%60+" seconds: "+seconds%60);
     }
-    public static void main(String[] args)
+
+    
+ 
+    
+    
+    public int getSecond()
     {
-        Clock clock = new Clock();
-        clock.setDate();
-        clock.isLeapYear();
-        clock.calcMonth();
-        clock.calcMonthName();
-        clock.printTime();
+        seconds = (int)(long) (System.currentTimeMillis()/1000);
+        return seconds;
     }
+    
+    public int getMinute()
+    {
+        return minutes;
+    }
+    
+    public int getHour()
+    {
+        
+        return hours;
+    }
+    
+    public int getDays()
+    {
+      
+       setDate();
+       return days;
+        
+    }
+    
+    public int getMonth()
+    {
+        setDate();
+        calcMonth();
+        return month;
+    }
+    
+    public int getYear()
+    {
+        setDate();
+        return years;
+    }
+    
+ 
 }

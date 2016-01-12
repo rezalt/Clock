@@ -5,22 +5,39 @@
  */
 package clock;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
 /**
  *
  * @author Henrik
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame
+{
 
     
-     Clock ClockLogic;
+     Clock clockLogic;
+     Counter counter;
     /**
      * Creates new form GUI
      */
-    public GUI() {
-        ClockLogic = new Clock();
+    public GUI() 
+    {
+        clockLogic = new Clock();
 
+        
         initComponents();
+        yearField.setText( "" + clockLogic.years );
+        monthField.setText( "" + clockLogic.month );
+        dayField.setText( "" + clockLogic.daysSinceNewYear );
+        hourField.setText( "" + clockLogic.hours%24 );
+        minuteField.setText( "" + clockLogic.minutes%60 );
+        secondField.setText( "" + clockLogic.seconds%60 );
+
+   
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,44 +74,63 @@ public class GUI extends javax.swing.JFrame {
 
         upButton.setText("UP");
 
+        yearField.setEditable(false);
         yearField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         yearField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         yearField.setText("Year");
         yearField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        yearField.setFocusable(false);
+        yearField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yearFieldActionPerformed(evt);
+            }
+        });
 
+        monthField.setEditable(false);
         monthField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         monthField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         monthField.setText("Month");
         monthField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        monthField.setFocusable(false);
 
+        dayField.setEditable(false);
         dayField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         dayField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         dayField.setText("Day");
         dayField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        dayField.setFocusable(false);
         dayField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dayFieldActionPerformed(evt);
             }
         });
 
+        hourField.setEditable(false);
         hourField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         hourField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         hourField.setText("Hour");
         hourField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        hourField.setFocusable(false);
 
+        minuteField.setEditable(false);
         minuteField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         minuteField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         minuteField.setText("Minute");
         minuteField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        minuteField.setFocusable(false);
 
+        secondField.setEditable(false);
         secondField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         secondField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         secondField.setText("Second");
         secondField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        secondField.setFocusable(false);
 
+        messageField.setEditable(false);
         messageField.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         messageField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         messageField.setText("Message");
+        messageField.setFocusable(false);
         messageField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 messageFieldActionPerformed(evt);
@@ -117,47 +153,45 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(modeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(downButton)
+                                    .addComponent(upButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(monthField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                                            .addComponent(yearField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))
+                                        .addComponent(dayField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(46, 46, 46)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(dayField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(modeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(3, 3, 3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(monthField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                        .addComponent(yearField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(53, 53, 53)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(secondField, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
-                                            .addComponent(minuteField)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(downButton)
-                                        .addComponent(upButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(65, Short.MAX_VALUE))
+                                        .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(yearField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dayField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dayField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(monthField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yearField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                    .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(upButton)
@@ -184,9 +218,15 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dayFieldActionPerformed
 
+    private void yearFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearFieldActionPerformed
+    
+    }//GEN-LAST:event_yearFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -215,9 +255,14 @@ public class GUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUI().setVisible(true);
-                
+                Counter counter;
+                counter = new Counter();
+
+                counter.start();
+  
                 
             }
+            
         });
     }
 
@@ -234,4 +279,31 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton upButton;
     private javax.swing.JTextField yearField;
     // End of variables declaration//GEN-END:variables
+
+    private class Counter extends Thread
+    {
+
+        public Counter()
+        {
+        }
+
+        public void run()
+        {
+
+
+              try{
+
+                   Thread.sleep(1000);
+
+                }
+
+              catch(InterruptedException e){}
+
+        }
+    }
+
 }
+
+    
+    
+
