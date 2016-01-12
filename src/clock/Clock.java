@@ -39,7 +39,7 @@ public class Clock
         isLeapYear();
         calcMonth();
         calcMonthName();
-        printTime();
+      //  printTime();
     }
     public void setDate()
     {
@@ -139,43 +139,49 @@ public class Clock
 
     
  
-    
+    public void updateClock()
+    {
+       seconds = (int)(long) (System.currentTimeMillis()/1000);
+       minutes = seconds/60;
+       hours = minutes/60+timeZone;
+       years = 1970;
+       daysSinceNewYear=0;
+       month = 0;
+       setDate();
+       isLeapYear();
+       calcMonth();
+       calcMonthName();
+       
+
+    }
     
     public int getSecond()
     {
-        seconds = (int)(long) (System.currentTimeMillis()/1000);
         return seconds;
     }
     
     public int getMinute()
-    {
+    {  
         return minutes;
     }
     
     public int getHour()
     {
-        
         return hours;
     }
     
     public int getDays()
     {
-      
-       setDate();
-       return days;
-        
+       return daysSinceNewYear;       
     }
     
-    public int getMonth()
+    public String getMonth()
     {
-        setDate();
-        calcMonth();
-        return month;
+        return monthString;
     }
     
     public int getYear()
     {
-        setDate();
         return years;
     }
     

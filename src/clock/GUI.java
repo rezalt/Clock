@@ -7,37 +7,48 @@ package clock;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static javax.management.timer.Timer.ONE_SECOND;
 import javax.swing.Timer;
 
 /**
  *
  * @author Henrik
  */
-public class GUI extends javax.swing.JFrame
+public class GUI extends javax.swing.JFrame implements ActionListener
 {
-
     
-     Clock clockLogic;
-     Counter counter;
+    public final static int oneSecond = 1000;
+
+
+    Timer timer;
+    
+   
+    Clock clockLogic;
+  
     /**
      * Creates new form GUI
      */
     public GUI() 
     {
         clockLogic = new Clock();
-
+       
         
+        timer = new Timer(oneSecond, new ActionListener() {
+  
+         
+         @Override
+         public void actionPerformed(ActionEvent evt) 
+        {      
+            updateFields();
+        }    
+    });
         initComponents();
-        yearField.setText( "" + clockLogic.years );
-        monthField.setText( "" + clockLogic.month );
-        dayField.setText( "" + clockLogic.daysSinceNewYear );
-        hourField.setText( "" + clockLogic.hours%24 );
-        minuteField.setText( "" + clockLogic.minutes%60 );
-        secondField.setText( "" + clockLogic.seconds%60 );
-
-   
+        
+        timer.start();
     }
 
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,30 +161,30 @@ public class GUI extends javax.swing.JFrame
                         .addGap(143, 143, 143)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(modeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(105, 105, 105)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(downButton)
-                                    .addComponent(upButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(dayField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(monthField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                                        .addComponent(yearField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(35, 35, 35)
-                                        .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(46, 46, 46)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(monthField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(35, 35, 35)
+                                            .addComponent(yearField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(181, 181, 181)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(downButton)
+                                    .addComponent(upButton, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
@@ -191,14 +202,14 @@ public class GUI extends javax.swing.JFrame
                     .addComponent(hourField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(secondField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minuteField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(upButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(downButton))
                     .addComponent(modeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -208,6 +219,7 @@ public class GUI extends javax.swing.JFrame
 
     private void modeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeButtonActionPerformed
         // TODO add your handling code here:
+         
     }//GEN-LAST:event_modeButtonActionPerformed
 
     private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
@@ -251,16 +263,34 @@ public class GUI extends javax.swing.JFrame
         }
         //</editor-fold>
 
+      
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUI().setVisible(true);
-                
+          
             }
             
+            
         });
+        
+        
+        
+        
+       
     }
 
+    public void updateFields()
+        {
+            clockLogic.updateClock();        
+            yearField.setText( "" + clockLogic.getYear() );
+            monthField.setText( "" + clockLogic.getMonth() );
+            dayField.setText( "" + clockLogic.getDays() );
+            hourField.setText( "" + clockLogic.getHour()%24 );
+            minuteField.setText( "" + clockLogic.getMinute()%60 );
+            secondField.setText( "" + clockLogic.getSecond()%60 );
+            
+        }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dayField;
     private javax.swing.JButton downButton;
@@ -275,27 +305,11 @@ public class GUI extends javax.swing.JFrame
     private javax.swing.JTextField yearField;
     // End of variables declaration//GEN-END:variables
 
-    private class Counter extends Thread
-    {
-
-        public Counter()
-        {
-        }
-
-        public void run()
-        {
-
-
-              try{
-
-                   Thread.sleep(1000);
-
-                }
-
-              catch(InterruptedException e){}
-
-        }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }
 
