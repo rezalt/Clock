@@ -298,6 +298,10 @@ public class GUI extends javax.swing.JFrame
         
             if( clockMode > 4 )
                     clockMode = 0;
+            
+            if( secondField.getForeground() != messageField.getForeground() )
+                 secondField.setForeground( messageField.getForeground() );
+               
         }
         
         if( setTimeFlag )
@@ -307,16 +311,16 @@ public class GUI extends javax.swing.JFrame
             
             if( setTime != 0 )
             {
-                secondField.setForeground( hourField.getForeground() );
+                secondField.setForeground( messageField.getForeground() );
             }
-            else if ( setTime != 1 )
+            if ( setTime != 1 )
             {
-                minuteField.setForeground( hourField.getForeground() );
+                minuteField.setForeground( messageField.getForeground() );
             }
             
-            else if ( setTime != 2 )
+            if ( setTime != 2 )
             {
-                hourField.setForeground( secondField.getForeground() );
+                hourField.setForeground( messageField.getForeground() );
             }
             
             
@@ -447,22 +451,23 @@ public class GUI extends javax.swing.JFrame
             yearField.setText( "" + clockLogic.getYear() );
             monthField.setText( "" + clockLogic.getMonth() );
             dayField.setText( "" + clockLogic.getDays() );
-            hourField.setText( "" + clockLogic.getHour()%24 );
-            minuteField.setText( "" + clockLogic.getMinute()%60 );
-            secondField.setText( "" + clockLogic.getSecond()%60 );     
+            hourField.setText( "" + clockLogic.getHour() % 24 );
+            minuteField.setText( "" + clockLogic.getMinute() % 60 );
+            secondField.setText( "" + clockLogic.getSecond() % 60 );     
             
             if( clockMode == 0 )
                 messageField.setText("Normal");
             else if( clockMode == 1 )
+            {
                 messageField.setText("Set time");
+                fieldBlinking(); 
+            }
             else if( clockMode == 2 )
                 messageField.setText("Set alarm");
             else if( clockMode == 3 )
                 messageField.setText("Count down");
             else if( clockMode == 4 )
                 messageField.setText("Count up");
-            
-            fieldBlinking(); 
             
         }
     
@@ -500,7 +505,7 @@ public class GUI extends javax.swing.JFrame
                     }
                     else if( foregroundColorBlink == 0 )
                     {
-                       minuteField.setForeground(hourField.getForeground());
+                       minuteField.setForeground(messageField.getForeground());
                        foregroundColorBlink = 1;
                     }
                     
@@ -516,7 +521,7 @@ public class GUI extends javax.swing.JFrame
                     }
                     else if( foregroundColorBlink == 0 )
                     {
-                       hourField.setForeground(secondField.getForeground());
+                       hourField.setForeground(messageField.getForeground());
                        foregroundColorBlink = 1;
                     }
                     
@@ -534,7 +539,7 @@ public class GUI extends javax.swing.JFrame
                     }
                     else if( foregroundColorBlink == 0 )
                     {
-                       secondField.setForeground(minuteField.getForeground());
+                       secondField.setForeground(messageField.getForeground());
                        foregroundColorBlink = 1;
                     }  
               
