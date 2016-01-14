@@ -462,10 +462,18 @@ public class GUI extends javax.swing.JFrame
             else if( clockMode == 4 )
                 messageField.setText("Count up");
             
-            if( setTimeFlag )
+            fieldBlinking(); 
+            
+        }
+    
+    
+    private void fieldBlinking()
+    {
+        
+        if( setTimeFlag )
             {
                 
-                if( setTime == 0 )
+                if( setTime == 0  )
                 {
                   
                     if( foregroundColorBlink == 1 )
@@ -515,7 +523,24 @@ public class GUI extends javax.swing.JFrame
                 }
                 
             }
-        }
+            else if ( !setTimeFlag && clockMode == 1 )
+            {
+                
+              if( foregroundColorBlink == 1 )
+                    {
+                       secondField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       secondField.setForeground(minuteField.getForeground());
+                       foregroundColorBlink = 1;
+                    }  
+              
+            }
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dayField;
     private javax.swing.JButton downButton;
