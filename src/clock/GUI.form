@@ -154,11 +154,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="DOWN"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="downButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="upButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="UP"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="yearField">
       <Properties>

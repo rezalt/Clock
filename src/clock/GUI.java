@@ -5,6 +5,7 @@
  */
 package clock;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static javax.management.timer.Timer.ONE_SECOND;
@@ -19,6 +20,9 @@ public class GUI extends javax.swing.JFrame
     
     public final static int timerSpeed = 500; // milliseconds
     int clockMode = 0; //  modes (0 Normal /1 Set time /2 Set alarm /3 Count down /4 Count up )
+    int setTime = 0; // 0-3
+    int foregroundColorBlink = 0;
+    boolean setTimeFlag = false;
     Timer timer;
     Clock clockLogic;
     
@@ -88,8 +92,22 @@ public class GUI extends javax.swing.JFrame
         });
 
         downButton.setText("DOWN");
+        downButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                downButtonActionPerformed(evt);
+            }
+        });
 
         upButton.setText("UP");
+        upButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                upButtonActionPerformed(evt);
+            }
+        });
 
         yearField.setEditable(false);
         yearField.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -274,9 +292,44 @@ public class GUI extends javax.swing.JFrame
 
     private void modeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeButtonActionPerformed
         
-        clockMode += 1;
-       if( clockMode > 4 )
-               clockMode = 0;
+        if( !setTimeFlag )
+        {
+            clockMode += 1;
+        
+            if( clockMode > 4 )
+                    clockMode = 0;
+        }
+        
+        if( setTimeFlag )
+        {
+            
+            setTime += 1;
+            
+            if( setTime != 0 )
+            {
+                secondField.setForeground( hourField.getForeground() );
+            }
+            else if ( setTime != 1 )
+            {
+                minuteField.setForeground( hourField.getForeground() );
+            }
+            
+            else if ( setTime != 2 )
+            {
+                hourField.setForeground( secondField.getForeground() );
+            }
+            
+            
+            if( setTime > 2 )
+            {
+                setTime = 0;
+                setTimeFlag = false;
+            }
+                    
+                    
+            
+        }
+        
         updateFields();
          
     }//GEN-LAST:event_modeButtonActionPerformed
@@ -292,6 +345,55 @@ public class GUI extends javax.swing.JFrame
     private void yearFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearFieldActionPerformed
     
     }//GEN-LAST:event_yearFieldActionPerformed
+
+    private void upButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_upButtonActionPerformed
+    {//GEN-HEADEREND:event_upButtonActionPerformed
+       if( clockMode == 1 )
+       {
+            setTimeFlag = true;
+          
+            if( setTime == 0 )
+            {
+              clockLogic.editSeconds(1);
+            }
+            else if( setTime == 1 )
+            {
+              clockLogic.editMinutes(1);
+            }
+            else if( setTime == 2 )
+            {
+              clockLogic.editHour(1);         
+            }
+          
+            updateFields();
+ 
+        }
+
+    }//GEN-LAST:event_upButtonActionPerformed
+
+    private void downButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_downButtonActionPerformed
+    {//GEN-HEADEREND:event_downButtonActionPerformed
+        if( clockMode == 1 )
+        {
+            setTimeFlag = true;
+
+            if( setTime == 0 )
+            {
+              clockLogic.editSeconds(-1);
+            }
+            else if( setTime == 1 )
+            {
+              clockLogic.editMinutes(-1);
+            }
+            else if( setTime == 2 )
+            {
+              clockLogic.editHour(-1);         
+            }
+
+            updateFields();
+
+        }
+    }//GEN-LAST:event_downButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -359,6 +461,60 @@ public class GUI extends javax.swing.JFrame
                 messageField.setText("Count down");
             else if( clockMode == 4 )
                 messageField.setText("Count up");
+            
+            if( setTimeFlag )
+            {
+                
+                if( setTime == 0 )
+                {
+                  
+                    if( foregroundColorBlink == 1 )
+                    {
+                       secondField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       secondField.setForeground(minuteField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                     
+                }
+                else if( setTime == 1 )
+                {
+                  
+                    if( foregroundColorBlink == 1 )
+                    {
+                       minuteField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       minuteField.setForeground(hourField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                    
+                }
+                else if( setTime == 2 )
+                {
+                     
+                    if( foregroundColorBlink == 1 )
+                    {
+                       hourField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       hourField.setForeground(secondField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                    
+                }
+                
+            }
         }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField dayField;

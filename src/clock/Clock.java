@@ -147,7 +147,7 @@ public class Clock
        
        seconds = (int)(long) (System.currentTimeMillis()/1000) + customSeconds;
        minutes = seconds/60 + customMinutes;
-       hours = minutes/60+timeZone + customHours;
+       hours = minutes/60 + timeZone + customHours;
        years = 1970 + customYears;
        daysSinceNewYear=0;
        month = 0;
@@ -157,6 +157,20 @@ public class Clock
        calcMonthName();
        
 
+    }
+    
+    
+    public void editSeconds( int newSecond )
+    {
+        customSeconds += newSecond;
+    }
+    public void editMinutes( int newMinute )
+    {
+        customMinutes += newMinute;
+    }
+    public void editHour( int newNr )
+    {
+        customHours += newNr;
     }
     
     public int getSecond()
