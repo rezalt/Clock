@@ -16,15 +16,17 @@ package clock;
  */
 public class Clock
 {
-    
-
 
     int days=0;
     int seconds = (int)(long) (System.currentTimeMillis()/1000);
+    int customSeconds;
     int minutes = seconds/60;
+    int customMinutes;
     int timeZone = 1;
     int hours = minutes/60+timeZone;
+    int customHours;
     int years = 1970;
+    int customYears;
     int daysSinceNewYear=0;
     boolean leapYear;
     int month =0;
@@ -141,10 +143,12 @@ public class Clock
  
     public void updateClock()
     {
-       seconds = (int)(long) (System.currentTimeMillis()/1000);
-       minutes = seconds/60;
-       hours = minutes/60+timeZone;
-       years = 1970;
+     
+       
+       seconds = (int)(long) (System.currentTimeMillis()/1000) + customSeconds;
+       minutes = seconds/60 + customMinutes;
+       hours = minutes/60+timeZone + customHours;
+       years = 1970 + customYears;
        daysSinceNewYear=0;
        month = 0;
        setDate();
