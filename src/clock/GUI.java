@@ -21,8 +21,11 @@ public class GUI extends javax.swing.JFrame
     public final static int timerSpeed = 500; // milliseconds
     int clockMode = 0; //  modes (0 Normal /1 Set time /2 Set alarm /3 Count down /4 Count up )
     int setTime = 0; // 0-3
+    int setCountdown = 0;
     int foregroundColorBlink = 0;
     boolean setTimeFlag = false;
+    boolean setCountdownFlag = false;
+    boolean startCountDown = false;
     Timer timer;
     Clock clockLogic;
     
@@ -58,8 +61,7 @@ public class GUI extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         modeButton = new javax.swing.JButton();
         downButton = new javax.swing.JButton();
@@ -80,31 +82,26 @@ public class GUI extends javax.swing.JFrame
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("The Clock");
         setResizable(false);
 
         modeButton.setText("MODE");
-        modeButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        modeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modeButtonActionPerformed(evt);
             }
         });
 
         downButton.setText("DOWN");
-        downButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        downButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 downButtonActionPerformed(evt);
             }
         });
 
         upButton.setText("UP");
-        upButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        upButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 upButtonActionPerformed(evt);
             }
         });
@@ -115,10 +112,8 @@ public class GUI extends javax.swing.JFrame
         yearField.setText("Year");
         yearField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         yearField.setFocusable(false);
-        yearField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        yearField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yearFieldActionPerformed(evt);
             }
         });
@@ -136,10 +131,8 @@ public class GUI extends javax.swing.JFrame
         dayField.setText("Day");
         dayField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         dayField.setFocusable(false);
-        dayField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        dayField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dayFieldActionPerformed(evt);
             }
         });
@@ -170,10 +163,8 @@ public class GUI extends javax.swing.JFrame
         messageField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         messageField.setText("Message");
         messageField.setFocusable(false);
-        messageField.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        messageField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 messageFieldActionPerformed(evt);
             }
         });
@@ -292,7 +283,7 @@ public class GUI extends javax.swing.JFrame
 
     private void modeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeButtonActionPerformed
         
-        if( !setTimeFlag )
+        if( !setTimeFlag && !setCountdownFlag )
         {
             clockMode += 1;
         
@@ -300,40 +291,18 @@ public class GUI extends javax.swing.JFrame
                     clockMode = 0;
             
             if( secondField.getForeground() != messageField.getForeground() )
-                 secondField.setForeground( messageField.getForeground() );
-               
+                 secondField.setForeground( messageField.getForeground() );     
         }
         
         if( setTimeFlag )
-        {
-            
-            setTime += 1;
-            
-            if( setTime != 0 )
-            {
-                secondField.setForeground( messageField.getForeground() );
-            }
-            if ( setTime != 1 )
-            {
-                minuteField.setForeground( messageField.getForeground() );
-            }
-            
-            if ( setTime != 2 )
-            {
-                hourField.setForeground( messageField.getForeground() );
-            }
-            
-            
-            if( setTime > 2 )
-            {
-                setTime = 0;
-                setTimeFlag = false;
-            }
-                    
-                    
-            
+        {               
+            setTimer();  
         }
-        
+        else if ( setCountdownFlag )
+        {
+            setCountdownTimer();       
+        }
+
         updateFields();
          
     }//GEN-LAST:event_modeButtonActionPerformed
@@ -370,7 +339,28 @@ public class GUI extends javax.swing.JFrame
             }
           
             updateFields();
- 
+        }
+       
+       if( clockMode == 3 )
+        {
+            setCountdownFlag = true;
+            startCountDown = false;
+            
+            if( setCountdown == 0 )
+            {
+              clockLogic.editCountdownSeconds(1);
+            }
+            else if( setCountdown == 1 )
+            {
+              clockLogic.editCountdownMinutes(1);
+            }
+            else if( setCountdown == 2 )
+            {
+              clockLogic.editCountdownHour(1);         
+            }
+
+            updateFields();
+
         }
 
     }//GEN-LAST:event_upButtonActionPerformed
@@ -393,6 +383,35 @@ public class GUI extends javax.swing.JFrame
             {
               clockLogic.editHour(-1);         
             }
+
+            updateFields();
+
+        }
+        if( clockMode == 3 )
+        {
+            setCountdownFlag = true;
+
+            /* if( setCountdown == 0 )
+               
+            {
+              clockLogic.editCountdownSeconds(-1);
+            }
+            else if( setCountdown == 1 )
+            {
+              clockLogic.editCountdownMinutes(-1);
+            }
+            else if( setCountdown == 2 )
+            {
+              clockLogic.editCountdownHour(-1);         
+            }
+           
+            */
+            
+            if( clockLogic.getCountdownSecond() > 0 || clockLogic.getCountdownMinute() > 0 || clockLogic.getCountdownHour() > 0 )
+            {
+                startCountDown = true;
+            }
+            
 
             updateFields();
 
@@ -446,39 +465,119 @@ public class GUI extends javax.swing.JFrame
     }
 
     public void updateFields()
+    {
+      clockLogic.updateClock();   
+      if ( clockMode != 3 )
+      {
+             
+        yearField.setText( "" + clockLogic.getYear() );
+        monthField.setText( "" + clockLogic.getMonth() );
+        dayField.setText( "" + clockLogic.getDays() );
+        hourField.setText( "" + clockLogic.getHour() % 24 );
+        minuteField.setText( "" + clockLogic.getMinute() % 60 );
+        secondField.setText( "" + clockLogic.getSecond() % 60 );
+      }
+
+        if( clockMode == 0 )
+            messageField.setText("Normal");
+        else if( clockMode == 1 )
         {
-            clockLogic.updateClock();        
-            yearField.setText( "" + clockLogic.getYear() );
-            monthField.setText( "" + clockLogic.getMonth() );
-            dayField.setText( "" + clockLogic.getDays() );
-            hourField.setText( "" + clockLogic.getHour() % 24 );
-            minuteField.setText( "" + clockLogic.getMinute() % 60 );
-            secondField.setText( "" + clockLogic.getSecond() % 60 );     
+            messageField.setText("Set time");
+            fieldBlinking(); 
+        }
+        else if( clockMode == 2 )
+            messageField.setText("Set alarm");
+        
+        else if( clockMode == 3 )
+        {
+            messageField.setText("Count down");
             
-            if( clockMode == 0 )
-                messageField.setText("Normal");
-            else if( clockMode == 1 )
+            hourField.setText( "" + clockLogic.getCountdownHour() % 24 );
+            minuteField.setText( "" + clockLogic.getCountdownMinute() % 60 );
+            secondField.setText( "" + clockLogic.getCountdownSecond() % 60 );     
+
+            
+            if( !startCountDown )
             {
-                messageField.setText("Set time");
                 fieldBlinking(); 
             }
-            else if( clockMode == 2 )
-                messageField.setText("Set alarm");
-            else if( clockMode == 3 )
-                messageField.setText("Count down");
-            else if( clockMode == 4 )
-                messageField.setText("Count up");
             
+            if ( startCountDown )
+            {
+                clockLogic.countdown();
+                if( clockLogic.getCountdownSecond() == 0 && clockLogic.getCountdownMinute() == 0 && clockLogic.getCountdownHour() == 0 )
+                {
+                    startCountDown = false;
+                }
+            }
         }
+        else if( clockMode == 4 )
+            messageField.setText("Count up");
+
+    }
     
     
+    private void setTimer()
+    {
+
+        setTime += 1;
+            
+            if( setTime != 0 )
+            {
+                secondField.setForeground( messageField.getForeground() );
+            }
+            if ( setTime != 1 )
+            {
+                minuteField.setForeground( messageField.getForeground() );
+            }
+            
+            if ( setTime != 2 )
+            {
+                hourField.setForeground( messageField.getForeground() );
+            }
+            
+            
+            if( setTime > 2 )
+            {
+                setTime = 0;
+                setTimeFlag = false;
+            }
+    }
+    
+    private void setCountdownTimer()
+    {
+
+        setCountdown += 1;
+            
+            if( setCountdown != 0 )
+            {
+                secondField.setForeground( messageField.getForeground() );
+            }
+            if ( setCountdown != 1 )
+            {
+                minuteField.setForeground( messageField.getForeground() );
+            }
+            
+            if ( setCountdown != 2 )
+            {
+                hourField.setForeground( messageField.getForeground() );
+            }
+            
+            
+            if( setCountdown > 2 )
+            {
+                setCountdown = 0;
+                setCountdownFlag = false;
+            }
+        
+    }
     private void fieldBlinking()
     {
         
         if( setTimeFlag )
             {
                 
-                if( setTime == 0  )
+                if( setTime == 0 )
                 {
                   
                     if( foregroundColorBlink == 1 )
@@ -535,7 +634,74 @@ public class GUI extends javax.swing.JFrame
                     {
                        secondField.setForeground(Color.GREEN);
                        foregroundColorBlink = 0;
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       secondField.setForeground(messageField.getForeground());
+                       foregroundColorBlink = 1;
+                    }  
+              
+            }
+        if( setCountdownFlag )
+            {
+                
+                if( setCountdown == 0 )
+                {
+                  
+                    if( foregroundColorBlink == 1 )
+                    {
+                       secondField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
 
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       secondField.setForeground(minuteField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                     
+                }
+                else if( setCountdown == 1 )
+                {
+                  
+                    if( foregroundColorBlink == 1 )
+                    {
+                       minuteField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       minuteField.setForeground(messageField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                    
+                }
+                else if( setCountdown == 2 )
+                {
+                     
+                    if( foregroundColorBlink == 1 )
+                    {
+                       hourField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
+
+                    }
+                    else if( foregroundColorBlink == 0 )
+                    {
+                       hourField.setForeground(messageField.getForeground());
+                       foregroundColorBlink = 1;
+                    }
+                    
+                }
+                
+            }
+            else if ( !setCountdownFlag && clockMode == 3 )
+            {
+                
+              if( foregroundColorBlink == 1 )
+                    {
+                       secondField.setForeground(Color.GREEN);
+                       foregroundColorBlink = 0;
                     }
                     else if( foregroundColorBlink == 0 )
                     {

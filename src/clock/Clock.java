@@ -19,12 +19,17 @@ public class Clock
 
     int days=0;
     int seconds = (int)(long) (System.currentTimeMillis()/1000);
+    int tempSeconds;
+    boolean tempSecondFlag = false;
     int customSeconds;
+    int countdownSeconds;
     int minutes = seconds/60;
     int customMinutes;
+    int countdownMinutes;
     int timeZone = 1;
     int hours = minutes/60+timeZone;
     int customHours;
+    int countdownHours;
     int years = 1970;
     int customYears;
     int daysSinceNewYear=0;
@@ -144,8 +149,8 @@ public class Clock
     public void updateClock()
     {
      
-       
        seconds = (int)(long) (System.currentTimeMillis()/1000) + customSeconds;
+       tempSeconds = seconds;
        minutes = seconds/60 + customMinutes;
        hours = minutes/60 + timeZone + customHours;
        years = 1970 + customYears;
@@ -168,9 +173,39 @@ public class Clock
     {
         customMinutes += newMinute;
     }
-    public void editHour( int newNr )
+    public void editHour( int newHour )
     {
-        customHours += newNr;
+        customHours += newHour;
+    }
+    
+    public void editCountdownSeconds( int newCdSecond )
+    {
+        countdownSeconds += newCdSecond;
+    }
+    public void editCountdownMinutes( int newCdMinute )
+    {
+        countdownSeconds += newCdMinute*60;
+        countdownMinutes += newCdMinute;
+    }
+    public void editCountdownHour( int newCdHour )
+    {
+        countdownSeconds += newCdHour*60*60;
+        countdownHours += newCdHour;
+    }
+    
+     public int getCountdownSecond()
+    {
+        return countdownSeconds;
+    }
+    
+    public int getCountdownMinute()
+    {  
+        return countdownMinutes;
+    }
+    
+    public int getCountdownHour()
+    {
+        return countdownHours;
     }
     
     public int getSecond()
@@ -201,6 +236,28 @@ public class Clock
     public int getYear()
     {
         return years;
+    }
+    
+    public void countdown()
+    {
+       
+       if( !tempSecondFlag )
+       {
+           tempSeconds = seconds + 1;
+           tempSecondFlag = true;
+       }
+       
+       if( tempSeconds == seconds )
+       {
+           countdownSeconds -= 1;
+           
+           countdownMinutes = countdownSeconds / 60;
+           countdownHours = countdownMinutes / 60;
+           
+           tempSecondFlag = false;
+       }
+
+      
     }
     
  
