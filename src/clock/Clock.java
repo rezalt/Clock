@@ -16,7 +16,7 @@ package clock;
  */
 public class Clock
 {
-
+//11
     int days=0;
     int seconds = (int)(long) (System.currentTimeMillis()/1000);
     int tempSeconds;

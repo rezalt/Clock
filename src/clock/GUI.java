@@ -61,7 +61,8 @@ public class GUI extends javax.swing.JFrame
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         modeButton = new javax.swing.JButton();
         downButton = new javax.swing.JButton();
@@ -86,22 +87,28 @@ public class GUI extends javax.swing.JFrame
         setResizable(false);
 
         modeButton.setText("MODE");
-        modeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        modeButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 modeButtonActionPerformed(evt);
             }
         });
 
         downButton.setText("DOWN");
-        downButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        downButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 downButtonActionPerformed(evt);
             }
         });
 
         upButton.setText("UP");
-        upButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        upButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 upButtonActionPerformed(evt);
             }
         });
@@ -112,8 +119,10 @@ public class GUI extends javax.swing.JFrame
         yearField.setText("Year");
         yearField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         yearField.setFocusable(false);
-        yearField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        yearField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 yearFieldActionPerformed(evt);
             }
         });
@@ -131,8 +140,10 @@ public class GUI extends javax.swing.JFrame
         dayField.setText("Day");
         dayField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         dayField.setFocusable(false);
-        dayField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        dayField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 dayFieldActionPerformed(evt);
             }
         });
@@ -163,8 +174,10 @@ public class GUI extends javax.swing.JFrame
         messageField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         messageField.setText("Message");
         messageField.setFocusable(false);
-        messageField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        messageField.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 messageFieldActionPerformed(evt);
             }
         });
